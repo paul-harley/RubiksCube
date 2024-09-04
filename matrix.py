@@ -1,3 +1,17 @@
+import globals
+import math
+
+#COMMON MATRICES
+
+orthographicProjectionMatrix = [
+    [1,0,0],
+    [0,1,0],
+    [0,0,0]
+]
+
+
+
+
 def multiplyMatrix(matrixA, matrixB):
     
     #Checking if multipication is possible
@@ -21,8 +35,57 @@ def multiplyMatrix(matrixA, matrixB):
         finalResult.append(row)
 
     
-    print(finalResult)
     return finalResult
+
+
+def rotateCube(cubePoints, axisToRotate, angle):
+
+    if axisToRotate == 'x':
+
+        rotateXDirection = [
+            [1,       0,                    0       ],
+            [0, math.cos(angle),    -math.sin(angle)],
+            [0, math.sin(angle),    math.cos(angle) ]
+        ]
+
+        newPoints = []
+
+        for point in cubePoints:
+            newPoints.append(multiplyMatrix(point, rotateXDirection))
+
+        return newPoints
+        
+    elif axisToRotate == 'y':
+        
+        rotateYDirection = [
+            [math.cos(angle),  0 , math.sin(angle)],
+            [       0,         1,         0       ],
+            [-math.sin(angle), 0,  math.cos(angle)]
+        ]
+
+        newPoints = []
+
+        for point in cubePoints:
+            newPoints.append(multiplyMatrix(point, rotateYDirection))
+
+        return newPoints
+
+    if axisToRotate == 'z':
+        
+        rotateZDirection = [
+            [math.cos(angle),  -math.sin(angle), 0],
+            [math.sin(angle),  math.cos(angle),  0],
+            [0,                     0,           1]
+        ]
+
+        newPoints = []
+
+        for point in cubePoints:
+            newPoints.append(multiplyMatrix(point, rotateZDirection))
+
+        return newPoints
+
+    
 
 
 
@@ -38,8 +101,10 @@ myMatrix2 = [
     [7,4]
 ]
 
-
+myMatrix3 = [
+    [-1,1,0]
+]
 #print(len(myMatrix)) #GIVES ROWS
 #print(len(myMatrix[1])) #GIVES COL
 
-multiplyMatrix(myMatrix, myMatrix2)
+#print(multiplyMatrix(myMatrix3, orthographicProjectionMatrix))

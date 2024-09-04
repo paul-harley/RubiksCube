@@ -1,2 +1,10 @@
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 500
+
+#COLOURS
+WHITE = (255,255,255)
+BLACK = (0,0,0)
+
+
+rotateAngle = 0
+cubeScale = 100
