@@ -1,31 +1,44 @@
 import pygame
 import globals
 import matrix
+import cube
 
 screen = pygame.display.set_mode((globals.SCREEN_HEIGHT, globals.SCREEN_WIDTH))
 
-bigCubePoints = globals.cubePoints
-cube2DPoints = []
-lineToDraw = globals.linesToDrawIndicies()
-print(lineToDraw)
+bigCube = cube.Cube(globals.cubeScale, 'b')
+smallCube = cube.Cube(globals.cubeScale/3, 's')
+smallCubePoints = globals.getBasicCube()
+smallCube2DPoints = []
 
-for p in bigCubePoints:
+#smallCubes
+for p in smallCubePoints:
     for i in range(3):
-        p[0][i] = p[0][i] * globals.cubeScale
+        p[0][i] = (p[0][i] * (globals.cubeScale/3))
+        #CONTROLS X CORDS
+        if i == 0:
+            p[0][i] += globals.cubeScale*(2/3)
+        if i == 2:
+            p[0][i] += (globals.cubeScale/3)*2
+
+
 
 
 def update2DCords():
-    cube2DPoints.clear()
-    for p in bigCubePoints:
-        cube2DPoints.append(matrix.multiplyMatrix(p, matrix.orthographicProjectionMatrix))
+
+    #SMALLS
+    smallCube2DPoints.clear()
+    for p in smallCubePoints:
+        smallCube2DPoints.append(matrix.multiplyMatrix(p, matrix.orthographicProjectionMatrix))
     
-    for p in cube2DPoints:
-        p[0][0] += globals.SCREEN_WIDTH/2
-        p[0][1] += globals.SCREEN_HEIGHT/4
+    for p in smallCube2DPoints:
+        p[0][0] += (globals.SCREEN_WIDTH/2) #+ (globals.cubeScale/3)*2
+        p[0][1] += (globals.SCREEN_HEIGHT/4) #+ globals.cubeScale/1
 
-update2DCords()
-print(cube2DPoints)
 
+
+
+bigCube.update2DCords()
+smallCube.update2DCords()
 
 clock = pygame.time.Clock()
 resume = True
@@ -35,49 +48,52 @@ while resume:
 
     #ROTATING OVERALL CUBE
     if key[pygame.K_w]: #UP
-        if key[pygame.K_d]: #RIGHT
-                globals.rotateAngle = 0.05
-                bigCubePoints = matrix.rotateCube(bigCubePoints, 'z', globals.rotateAngle)
-                update2DCords()
         globals.rotateAngle = -0.05
-        bigCubePoints = matrix.rotateCube(bigCubePoints, 'x', globals.rotateAngle)
-        update2DCords()
+        bigCube.rotateCube('x', globals.rotateAngle)
+        bigCube.update2DCords()
+        
+        #GOING TO HAVE A LIST OF ALL SMALL CUBES
+        #LOOP THROUGH AND DO THIS
+        smallCube.rotateCube('x', globals.rotateAngle)
+        smallCube.update2DCords()
 
     if key[pygame.K_s]: #DOWN
-        if key[pygame.K_a]: #LEFT
-            globals.rotateAngle = 0.05
-            bigCubePoints = matrix.rotateCube(bigCubePoints, 'z', globals.rotateAngle)
-            update2DCords()
         globals.rotateAngle = 0.05
-        bigCubePoints = matrix.rotateCube(bigCubePoints, 'x', globals.rotateAngle)
-        update2DCords()
+        bigCube.rotateCube('x', globals.rotateAngle)
+        bigCube.update2DCords()
+        smallCube.rotateCube('x', globals.rotateAngle)
+        smallCube.update2DCords()
 
     if key[pygame.K_a]: #LEFT
         globals.rotateAngle = 0.05
-        bigCubePoints = matrix.rotateCube(bigCubePoints, 'y', globals.rotateAngle)
-        update2DCords()
+        bigCube.rotateCube('y', globals.rotateAngle)
+        bigCube.update2DCords()
+        smallCube.rotateCube('y', globals.rotateAngle)
+        smallCube.update2DCords()
 
     if key[pygame.K_d]: #RIGHT
         globals.rotateAngle = -0.05
-        bigCubePoints = matrix.rotateCube(bigCubePoints, 'y', globals.rotateAngle)
-        update2DCords()
-    
-    #DRAWING BIG CUBE
+        bigCube.rotateCube('y', globals.rotateAngle)
+        bigCube.update2DCords()
+        smallCube.rotateCube('y', globals.rotateAngle)
+        smallCube.update2DCords()
+
     screen.fill(globals.BLACK)
-    #verticies
-    for p in cube2DPoints:
-        pygame.draw.circle(screen, globals.WHITE, (p[0][0], p[0][1]), 5)
     
-    #edges
-    for i in range(len(lineToDraw)):
-        xCordStart = cube2DPoints[lineToDraw[i][0]][0][0]
-        yCordStart = cube2DPoints[lineToDraw[i][0]][0][1]
+    bigCube.draw(screen)
+    
+    #trying to colour stuff
+    #pygame.draw.polygon(screen, globals.RED, [(bigCube2DPoints[0][0]), (bigCube2DPoints[1][0]), (bigCube2DPoints[3][0]), (bigCube2DPoints[2][0])])
 
-        xCordEnd = cube2DPoints[lineToDraw[i][1]][0][0]
-        yCordEnd = cube2DPoints[lineToDraw[i][1]][0][1]
+    #DRAWING SMALLCUBE
 
-        pygame.draw.line(screen, globals.WHITE, [xCordStart, yCordStart], [xCordEnd, yCordEnd])
-        
+    #verticies
+    #for p in smallCube2DPoints:
+    #    pygame.draw.circle(screen, globals.WHITE, (p[0][0], p[0][1]), 2)
+    
+    bigCube.draw(screen)
+    smallCube.draw(screen)
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

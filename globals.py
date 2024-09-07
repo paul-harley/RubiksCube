@@ -4,22 +4,24 @@ SCREEN_HEIGHT = 800
 #COLOURS
 WHITE = (255,255,255)
 BLACK = (0,0,0)
+RED = (255,0,0)
 
 
 rotateAngle = 0
 cubeScale = 200
 
 #standard cube setup
-cubePoints = [
-    [[0,0,0]],
-    [[0,0,1]],
-    [[1,0,0]],
-    [[1,0,1]],
-    [[1,1,0]],
-    [[1,1,1]],
-    [[0,1,0]],
-    [[0,1,1]],
-]
+def getBasicCube():
+    return [
+        [[0,0,0]],
+        [[0,0,1]],
+        [[1,0,0]],
+        [[1,0,1]],
+        [[1,1,0]],
+        [[1,1,1]],
+        [[0,1,0]],
+        [[0,1,1]],
+    ]
 
 #GOING TO MAKE A SET OF INDICIES THAT A LINE SHOULD BE DRAWN BETWEEN
 #DISTANCE IS A GOOD WAY TO FIGUIRE IT OUT I THINK
@@ -37,6 +39,7 @@ def findDis2Points3D(point1, point2):
 
 def linesToDrawIndicies():
     linesToDraw = []
+    cubePoints = getBasicCube()
     for i in range(len(cubePoints)):
         for j in range(len(cubePoints)):
             if findDis2Points3D(cubePoints[i], cubePoints[j]) == 1:
