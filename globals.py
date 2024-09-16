@@ -10,9 +10,13 @@ GREEN = (0,255,0)
 YELLOW = (255,255,0)
 ORANGE = (255,165,0)
 
-thisdict = {
+coloursDict = {
         0: WHITE,
         1: RED,
+        2: ORANGE,
+        3: BLUE,
+        4: YELLOW,
+        5: GREEN
     }
 
 
@@ -86,4 +90,5 @@ def fixPerpendicularSide(startingPos):
 
 
 rotateRight("left", 1, sideWalls, 0)
+print(fullCube)
 

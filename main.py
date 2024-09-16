@@ -25,14 +25,13 @@ def rotateAllCubes(direction):
     bigCube.rotateCube(direction, globals.rotateAngle)
     bigCube.update2DCords()
 
-    print("top", bigCube.position[1][0][2])
-    print("bottom",bigCube.position[7][0][2])
-    print("DONE")
-
     for myCube in smallCubes:
         myCube.rotateCube(direction, globals.rotateAngle)
         myCube.update2DCords()
 
+
+print(smallCubes[0].sides)
+print(smallCubes[0].pickColour(3))
 
 clock = pygame.time.Clock()
 resume = True
