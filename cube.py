@@ -281,16 +281,15 @@ class Cube:
 
         visibleSides = self.findVisibleSides()
         self.drawColours(screen, visibleSides)
-
         #edges
         for i in range(len(self.linesToDraw)):
             xCordStart = self.cords2D[self.linesToDraw[i][0]][0][0]
             yCordStart = self.cords2D[self.linesToDraw[i][0]][0][1]
-    
             xCordEnd = self.cords2D[self.linesToDraw[i][1]][0][0]
             yCordEnd = self.cords2D[self.linesToDraw[i][1]][0][1]
-    
-            pygame.draw.line(screen, globals.WHITE, [xCordStart, yCordStart], [xCordEnd, yCordEnd])
+            pygame.draw.line(screen, globals.BLACK, [xCordStart, yCordStart], [xCordEnd, yCordEnd])
+
+
         
 
     def findVisibleSides(self):
@@ -336,18 +335,12 @@ class Cube:
                 pygame.draw.polygon(screen, self.pickColour(globals.cubeSides.get("bottom")), [(self.cords2D[4][0]), (self.cords2D[5][0]), (self.cords2D[7][0]), (self.cords2D[6][0])])
 
 
-        #if globals.cubeSides.get("left") in self.sides:
-        #   pygame.draw.polygon(screen, globals.RED, [(self.cords2D[0][0]), (self.cords2D[1][0]), (self.cords2D[7][0]), (self.cords2D[6][0])])
-        #if globals.cubeSides.get("right") in self.sides:
-        #    pygame.draw.polygon(screen, globals.ORANGE, [(self.cords2D[2][0]), (self.cords2D[3][0]), (self.cords2D[5][0]), (self.cords2D[4][0])])
-
-
     def pickColour(self, side):
         colourToDraw = (0,0,0)
         if side in self.sides:
             for cord in self.sideCords:
                 if cord[0] == side:
-                    colourIndex = globals.fullCube[cord[0]][cord[1]][cord[2]]
+                    colourIndex = globals.fullPuzzle.fullCube[cord[0]][cord[1]][cord[2]]
                     colourToDraw = globals.coloursDict.get(colourIndex)
         
     

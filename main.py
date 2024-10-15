@@ -1,5 +1,6 @@
 import pygame
 import globals
+import puzzle
 import matrix
 import cube
 
@@ -13,7 +14,6 @@ for x in range(3):
         for z in range(3):
             smallCube = cube.Cube(globals.cubeScale/3, 's', [x,y,z])
             smallCubes.append(smallCube)
-
 
 
 bigCube.update2DCords()
@@ -30,8 +30,6 @@ def rotateAllCubes(direction):
         myCube.update2DCords()
 
 
-print(smallCubes[0].sides)
-print(smallCubes[0].pickColour(3))
 
 clock = pygame.time.Clock()
 resume = True
@@ -55,6 +53,17 @@ while resume:
     if key[pygame.K_d]: #RIGHT
         globals.rotateAngle = -0.05
         rotateAllCubes('y')
+
+    #MOVE PUZZLE
+    if key[pygame.K_RIGHT]:
+        globals.fullPuzzle.rotateHorizontal("left", puzzle.rotationsDict.get("right"), 0)
+
+    if key[pygame.K_LEFT]:
+        globals.fullPuzzle.rotateHorizontal("left", puzzle.rotationsDict.get("left"), 0)
+
+    if key[pygame.K_UP]:
+        globals.fullPuzzle.rotateVertical("front", puzzle.rotationsDict.get("up"), 0)
+        print(globals.fullPuzzle.fullCube)
 
     #DRAWING TO SCREEN
     screen.fill(globals.BLACK)
